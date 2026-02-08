@@ -1,23 +1,33 @@
-## Fine-tuning (Google Colab)
+
+# Fine-tuning Module (Google Colab)
+
+This module documents the **behavioral fine-tuning process** using LoRA.
+
+---
+
+## Why Google Colab?
 
 Fine-tuning was performed on Google Colab due to local hardware constraints.
+Training and inference are intentionally decoupled from the local system.
 
-### Training
-- Method: LoRA (behavioral fine-tuning)
+---
+
+## Training
+
 - Base model: phi-3-mini
+- Method: LoRA (PEFT)
 - Objective:
   - Improve answer structure
   - Enforce scope adherence
-  - Improve refusal behavior in medical queries
+  - Improve refusal behavior for medical queries
 
 Training code is provided in `colab_finetune.ipynb`.
 
-### Inference
-Inference is handled via a lightweight FastAPI service running in Colab,
-which exposes the fine-tuned model through an HTTP endpoint.
+---
 
-The local RAG backend calls this endpoint for fine-tuned generation.
+## Inference
 
-### Dataset
-Only a small dataset sample is included for illustration.
-Full training data is excluded intentionally.
+The fine-tuned model is served via a lightweight FastAPI app running in Colab.
+The local RAG backend calls this service over HTTP for fine-tuned generation.
+
+---
