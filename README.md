@@ -54,26 +54,23 @@ flowchart TD
     User --> Frontend[Streamlit Frontend]
 
     %% Prompt Mode
-    Frontend -->|Prompt Mode| PromptAPI[Prompt Module - FastAPI]
-    PromptAPI --> Phi3Base[Phi-3 Base Model (Ollama)]
+    Frontend -->|Prompt Mode| PromptAPI[Prompt Module<br/>FastAPI]
+    PromptAPI --> Phi3Base[Phi-3 Base Model<br/>Ollama]
 
     %% RAG Mode
-    Frontend -->|RAG Mode| RAG[RAG Backend - FastAPI]
+    Frontend -->|RAG Mode| RAG[RAG Backend<br/>FastAPI]
     RAG --> Embed[Embed Query<br/>SentenceTransformers]
     Embed --> VectorDB[Vector Search<br/>ChromaDB]
-    VectorDB --> Retrieve[Top-K Chunks]
+    VectorDB --> Retrieve[Retrieve Top-K Chunks]
     Retrieve --> PromptBuild[Build Grounded Prompt]
     PromptBuild --> Phi3Base
 
     %% Fine-tuned RAG Mode
     Frontend -->|Fine-tuned RAG| RAG
-    PromptBuild --> Phi3LoRA[Phi-3 + LoRA Adapter<br/>(Colab API)]
+    PromptBuild --> Phi3LoRA[Phi-3 with LoRA Adapter<br/>Colab API]
 
     %% Comparison Mode
     Frontend -->|Comparison Mode| Compare[Comparison Logic]
     Compare --> Phi3Base
     Compare --> Phi3LoRA
-    Compare --> Eval[Side-by-side Answers<br/>+ Evaluation Metrics]
-
-
-This repository is intended to demonstrate **production-style GenAI system design**.
+    Compare --> Eval[Side-by-side Answers<br/>Evaluation Metrics]
