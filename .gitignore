@@ -1,0 +1,28 @@
+# Python virtual environments
+.venv/
+venv/
+.venv311/
+
+# VS Code
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Models / adapters
+*.bin
+*.safetensors
+phi3_medical_lora*
+outputs/
+
+# Databases
+chroma_db/
+*.sqlite
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
