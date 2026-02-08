@@ -53,20 +53,17 @@ This repository is intended to demonstrate **production-style GenAI system desig
 flowchart TD
     User --> Frontend[Streamlit Frontend]
 
-    %% Prompt Mode
-    Frontend -->|Prompt Mode| PromptAPI[Prompt Module<br/>FastAPI]
-    PromptAPI --> Phi3Base[Phi-3 Base Model<br/>Ollama]
-
     %% RAG Mode
     Frontend -->|RAG Mode| RAG[RAG Backend<br/>FastAPI]
     RAG --> Embed[Embed Query<br/>SentenceTransformers]
     Embed --> VectorDB[Vector Search<br/>ChromaDB]
     VectorDB --> Retrieve[Retrieve Top-K Chunks]
     Retrieve --> PromptBuild[Build Grounded Prompt]
-    PromptBuild --> Phi3Base
 
-    %% Fine-tuned RAG Mode
-    Frontend -->|Fine-tuned RAG| RAG
+    %% Base RAG
+    PromptBuild --> Phi3Base[Phi-3 Base Model<br/>Ollama]
+
+    %% Fine-tuned RAG
     PromptBuild --> Phi3LoRA[Phi-3 with LoRA Adapter<br/>Colab API]
 
     %% Comparison Mode
@@ -74,3 +71,4 @@ flowchart TD
     Compare --> Phi3Base
     Compare --> Phi3LoRA
     Compare --> Eval[Side-by-side Answers<br/>Evaluation Metrics]
+
