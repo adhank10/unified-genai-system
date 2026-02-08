@@ -61,7 +61,7 @@ Frontend (Streamlit)
  │   Prompt Module (FastAPI)
  │     │
  │     ▼
- │   Phi-3 (Base Model via Ollama)
+ │   Phi-3 Base Model (Ollama)
  │
  ├─▶ RAG Mode
  │     │
@@ -76,7 +76,7 @@ Frontend (Streamlit)
  │     │
  │     ├─▶ Build Grounded Prompt
  │     │
- │     └─▶ Phi-3 (Base Model via Ollama)
+ │     └─▶ Phi-3 Base Model (Ollama)
  │
  ├─▶ Fine-tuned RAG Mode
  │     │
