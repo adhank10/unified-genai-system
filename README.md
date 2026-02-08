@@ -47,28 +47,57 @@ Classical NLP metrics such as BLEU or ROUGE are intentionally avoided, as they a
 This repository is intended to demonstrate **production-style GenAI system design**.
 
 
-## System Workflow (Mermaid)
+## System Workflow
 
-```mermaid
-flowchart TD
-    User --> Frontend[Streamlit Frontend]
+User
+ │
+ ▼
+Frontend (Streamlit)
+ │
+ ├─▶ Prompt Mode
+ │     │
+ │     ▼
+ │   Prompt Module (FastAPI)
+ │     │
+ │     ▼
+ │   Phi-3 (Base Model via Ollama)
+ │
+ ├─▶ RAG Mode
+ │     │
+ │     ▼
+ │   RAG Backend (FastAPI)
+ │     │
+ │     ├─▶ Embed Query
+ │     │
+ │     ├─▶ Vector Search (ChromaDB)
+ │     │
+ │     ├─▶ Retrieve Top-K Chunks
+ │     │
+ │     ├─▶ Build Grounded Prompt
+ │     │
+ │     └─▶ Phi-3 (Base Model via Ollama)
+ │
+ ├─▶ Fine-tuned RAG Mode
+ │     │
+ │     ▼
+ │   RAG Backend (FastAPI)
+ │     │
+ │     ├─▶ Embed Query
+ │     │
+ │     ├─▶ Vector Search (ChromaDB)
+ │     │
+ │     ├─▶ Retrieve Top-K Chunks
+ │     │
+ │     ├─▶ Build Grounded Prompt
+ │     │
+ │     └─▶ Phi-3 + LoRA Adapter (Colab API)
+ │
+ └─▶ Comparison Mode
+       │
+       ├─▶ Base RAG (Phi-3)
+       ├─▶ Fine-tuned RAG (Phi-3 + LoRA)
+       │
+       ▼
+   Side-by-side Answers + Evaluation
 
-    %% RAG Mode
-    Frontend -->|RAG Mode| RAG[RAG Backend<br/>FastAPI]
-    RAG --> Embed[Embed Query<br/>SentenceTransformers]
-    Embed --> VectorDB[Vector Search<br/>ChromaDB]
-    VectorDB --> Retrieve[Retrieve Top-K Chunks]
-    Retrieve --> PromptBuild[Build Grounded Prompt]
-
-    %% Base RAG
-    PromptBuild --> Phi3Base[Phi-3 Base Model<br/>Ollama]
-
-    %% Fine-tuned RAG
-    PromptBuild --> Phi3LoRA[Phi-3 with LoRA Adapter<br/>Colab API]
-
-    %% Comparison Mode
-    Frontend -->|Comparison Mode| Compare[Comparison Logic]
-    Compare --> Phi3Base
-    Compare --> Phi3LoRA
-    Compare --> Eval[Side-by-side Answers<br/>Evaluation Metrics]
 
