@@ -47,9 +47,9 @@ Classical NLP metrics such as BLEU or ROUGE are intentionally avoided, as they a
 This repository is intended to demonstrate **production-style GenAI system design**.
 
 
-## System Workflow
+## System Workflow (ASCII)
 
-
+```text
 User
  │
  ▼
