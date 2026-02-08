@@ -43,4 +43,29 @@ Classical NLP metrics such as BLEU or ROUGE are intentionally avoided, as they a
 - Model weights, adapters, and vector databases are **not included** in this repository.
 - Fine-tuning is performed externally (Google Colab) and accessed via API during inference.
 
+---
+
+## System Workflow
+
+```mermaid
+flowchart TD
+    User --> Frontend
+
+    Frontend -->|Prompt Mode| PromptAPI
+    PromptAPI --> Ollama
+
+    Frontend -->|RAG Mode| RAG
+    RAG --> Embed
+    Embed --> VectorDB
+    VectorDB --> Retrieve
+    Retrieve --> PromptBuild
+    PromptBuild --> Phi 3
+
+    Frontend -->|Fine-tuned RAG| RAG
+    PromptBuild --> FineTunedAPI
+
+    Frontend -->|Comparison| Compare
+    Compare --> Phi 3
+    Compare --> FineTunedAPI
+
 This repository is intended to demonstrate **production-style GenAI system design**.
