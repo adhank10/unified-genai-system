@@ -44,28 +44,36 @@ Classical NLP metrics such as BLEU or ROUGE are intentionally avoided, as they a
 - Fine-tuning is performed externally (Google Colab) and accessed via API during inference.
 
 ---
+This repository is intended to demonstrate **production-style GenAI system design**.
 
-## System Workflow
+
+## System Workflow (Mermaid)
 
 ```mermaid
 flowchart TD
-    User --> Frontend
+    User --> Frontend[Streamlit Frontend]
 
-    Frontend -->|Prompt Mode| PromptAPI
-    PromptAPI --> Ollama
+    %% Prompt Mode
+    Frontend -->|Prompt Mode| PromptAPI[Prompt Module - FastAPI]
+    PromptAPI --> Phi3Base[Phi-3 Base Model (Ollama)]
 
-    Frontend -->|RAG Mode| RAG
-    RAG --> Embed
-    Embed --> VectorDB
-    VectorDB --> Retrieve
-    Retrieve --> PromptBuild
-    PromptBuild --> Phi 3
+    %% RAG Mode
+    Frontend -->|RAG Mode| RAG[RAG Backend - FastAPI]
+    RAG --> Embed[Embed Query<br/>SentenceTransformers]
+    Embed --> VectorDB[Vector Search<br/>ChromaDB]
+    VectorDB --> Retrieve[Top-K Chunks]
+    Retrieve --> PromptBuild[Build Grounded Prompt]
+    PromptBuild --> Phi3Base
 
+    %% Fine-tuned RAG Mode
     Frontend -->|Fine-tuned RAG| RAG
-    PromptBuild --> FineTunedAPI
+    PromptBuild --> Phi3LoRA[Phi-3 + LoRA Adapter<br/>(Colab API)]
 
-    Frontend -->|Comparison| Compare
-    Compare --> Phi 3
-    Compare --> FineTunedAPI
+    %% Comparison Mode
+    Frontend -->|Comparison Mode| Compare[Comparison Logic]
+    Compare --> Phi3Base
+    Compare --> Phi3LoRA
+    Compare --> Eval[Side-by-side Answers<br/>+ Evaluation Metrics]
+
 
 This repository is intended to demonstrate **production-style GenAI system design**.
